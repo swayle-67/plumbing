@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block title %}HydroLogic AI | Admin Command Center{% endblock %}
+{% set active = 'admin' %}
+
+{% block extra_styles %}
+.neon-glow-primary { box-shadow: 0 0 20px rgba(0,212,255,0.15); }
+.liquid-fill { background: linear-gradient(90deg, #0072FF, #00D4FF); }
+{% endblock %}
+
+{% block body_class %}overflow-x-hidden{% endblock %}
+
+{% block content %}
+<main class="pt-24 pb-16 px-6 md:px-margin-desktop max-w-container-max mx-auto">
+    <div class="grid grid-cols-12 gap-gutter">
+        <!-- Revenue Analytics -->
+        <div class="col-span-12 lg:col-span-8 glass-panel rounded-xl p-8 neon-glow-primary">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <span class="font-label-code text-label-code text-primary uppercase tracking-widest">Revenue Analytics</span>
+                    <h2 class="font-headline-lg text-headline-lg text-on-surface mt-2">$142,850.00</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant">System-wide performance increase of +12.4% this month.</p>
+                </div>
+                <div class="flex gap-2">
+                    {% for period, sel in [("1W",false),("1M",true),("1Y",false)] %}
+                    <div class="px-3 py-1 rounded-lg {% if sel %}bg-primary-container text-on-primary-container{% else %}bg-surface-container font-label-code text-on-surface{% endif %} font-label-code text-label-code cursor-pointer">{{ period }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Chart -->
+            <div class="h-64 w-full relative overflow-hidden rounded-lg bg-surface-container-low border border-white/5">
+                <div class="absolute inset-0 flex items-end px-4 pb-8 space-x-4">
+                    {% for h, o in [
+                    (40, "20"),
+                    (60, "30"),
+                    (45, "40"),
+                    (80, "60"),
+                    (65, "80"),
+                    (90, "100"),
+                    (70, "70")
+                    ] %}
+                        <div class="flex-1 flex flex-col justify-end">
+                            <div
+                                class="liquid-fill rounded-t-sm opacity-{{ o }}"
+                                style="height: {{ h }}%;"
+                            ></div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <svg class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                    <path class="drop-shadow-[0_0_10px_rgba(0,212,255,0.8)]" d="M0 200 Q 150 150 300 180 T 600 100 T 900 140 T 1200 40" fill="none" stroke="#00D4FF" stroke-width="3"/>
+                    <path d="M0 220 Q 200 190 400 210 T 800 160 T 1200 190" fill="none" opacity="0.5" stroke="#0072FF" stroke-width="2"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- AI Status -->
+        <div class="col-span-12 lg:col-span-4 glass-panel rounded-xl p-8 flex flex-col gap-6">
+            <div class="flex items-center justify-between">
+                <h3 class="font-headline-md text-headline-md text-on-surface">AI Assistant</h3>
+                <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    <span class="font-label-code text-[10px] text-primary uppercase">Active</span>
+                </div>
+            </div>
+            <div class="p-4 rounded-xl bg-surface-container-highest border border-white/5">
+                <p class="font-label-code text-label-code text-primary mb-2">Automation Level</p>
+                <div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+                    <div class="h-full w-[78%] liquid-fill shadow-[0_0_10px_rgba(0,212,255,0.4)]"></div>
+                </div>
+                <div class="flex justify-between mt-2 font-label-code text-[12px] text-on-surface-variant">
+                    <span>Diagnostic Only</span>
+                    <span class="text-primary">Full Autonomy</span>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <a href="/assistant" class="flex flex-col items-center gap-2 p-4 rounded-xl bg-surface-container-low hover:bg-white/5 transition-all border border-white/5">
+                    <span class="material-symbols-outlined text-primary">chat_bubble</span>
+                    <span class="font-label-code text-[12px]">Chat History</span>
+                </a>
+                <button class="flex flex-col items-center gap-2 p-4 rounded-xl bg-surface-container-low hover:bg-white/5 transition-all border border-white/5">
+                    <span class="material-symbols-outlined text-primary">settings_suggest</span>
+                    <span class="font-label-code text-[12px]">Logic Rules</span>
+                </button>
+            </div>
+            <div class="mt-auto pt-6 border-t border-white/10">
+                <button class="w-full py-4 rounded-xl liquid-gradient text-on-primary-fixed font-bold uppercase tracking-widest shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:scale-[1.02] transition-transform">
+                    Launch System Audit
+                </button>
+            </div>
+        </div>
+
+        <!-- Dispatch Map -->
+        <div class="col-span-12 lg:col-span-7 glass-panel rounded-xl overflow-hidden min-h-[400px] flex flex-col">
+            <div class="p-6 flex justify-between items-center border-b border-white/10">
+                <h3 class="font-headline-md text-headline-md text-on-surface">Active Dispatch</h3>
+                <span class="font-label-code text-label-code text-on-surface-variant">8 Technicians Online</span>
+            </div>
+            <div class="flex-grow relative bg-surface-container-lowest flex items-center justify-center">
+                <div class="text-center p-12">
+                    <span class="material-symbols-outlined text-primary text-[80px] mb-4 block">map</span>
+                    <div class="flex flex-col gap-4">
+                        <div class="glass-panel p-3 rounded-lg flex items-center gap-3">
+                            <div class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#00D4FF]"></div>
+                            <div class="font-label-code text-[12px]">
+                                <p class="text-on-surface font-bold">TECH_084 (Active)</p>
+                                <p class="text-primary">Mainline Repair - 1.2mi</p>
+                            </div>
+                        </div>
+                        <div class="glass-panel p-3 rounded-lg flex items-center gap-3 opacity-70">
+                            <div class="w-2 h-2 rounded-full bg-on-surface-variant"></div>
+                            <div class="font-label-code text-[12px]">
+                                <p class="text-on-surface font-bold">TECH_091 (Standby)</p>
+                                <p class="text-on-surface-variant">North Sector</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Summaries -->
+        <div class="col-span-12 lg:col-span-5 glass-panel rounded-xl p-6 flex flex-col gap-6">
+            <h3 class="font-headline-md text-headline-md text-on-surface">AI-Generated Summaries</h3>
+            <div class="space-y-4">
+                <div class="p-4 rounded-xl bg-surface-container border border-primary/20 hover:border-primary/50 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-label-code text-[12px] text-primary">PRIORITY: HIGH</span>
+                        <span class="font-label-code text-[10px] text-on-surface-variant">2 mins ago</span>
+                    </div>
+                    <h4 class="font-headline-md text-body-lg text-on-surface mb-1">Residential Burst Pipe</h4>
+                    <p class="font-body-md text-body-md text-on-surface-variant italic">"AI Analysis: High-pressure failure detected in main riser. Emergency crew required within 30 minutes."</p>
+                    <div class="mt-4 flex gap-2">
+                        <button class="px-4 py-1 rounded-full bg-primary-container text-on-primary-container font-label-code text-[12px]">Dispatch Now</button>
+                        <button class="px-4 py-1 rounded-full border border-white/10 font-label-code text-[12px]">Ignore</button>
+                    </div>
+                </div>
+                <div class="p-4 rounded-xl bg-surface-container border border-white/5 hover:border-primary/50 transition-colors opacity-80">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="font-label-code text-[12px] text-on-surface-variant">PRIORITY: MED</span>
+                        <span class="font-label-code text-[10px] text-on-surface-variant">15 mins ago</span>
+                    </div>
+                    <h4 class="font-headline-md text-body-lg text-on-surface mb-1">HVAC Integration Query</h4>
+                    <p class="font-body-md text-body-md text-on-surface-variant italic">"Customer inquiry regarding smart sensor integration for gray water recovery systems."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="col-span-12 glass-panel rounded-xl p-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <h3 class="font-headline-md text-headline-md text-on-surface">Operational Calendar</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Managing 24 scheduled service appointments for today.</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="material-symbols-outlined p-2 rounded-lg bg-surface-container hover:bg-white/5">chevron_left</button>
+                    <span class="font-headline-md text-body-lg text-on-surface">October 24, 2024</span>
+                    <button class="material-symbols-outlined p-2 rounded-lg bg-surface-container hover:bg-white/5">chevron_right</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-7 gap-4">
+                {% for day in ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"] %}
+                <div class="text-center font-label-code text-primary py-2 uppercase tracking-tighter">{{ day }}</div>
+                {% endfor %}
+                {% for num, today in [("21",false),("22",false),("23",false),("24",true),("25",false),("26",false),("27",false)] %}
+                <div class="h-32 {% if today %}bg-surface-container-highest rounded-lg p-2 border border-primary/30 ring-1 ring-primary/20{% else %}bg-surface-container-low rounded-lg p-2 border border-white/5{% endif %}">
+                    <span class="font-label-code {% if today %}text-primary{% endif %}">{{ num }}{% if today %} Today{% endif %}</span>
+                    {% if today %}
+                    <div class="mt-2 space-y-1">
+                        <div class="text-[10px] bg-primary/20 text-primary p-1 rounded truncate">10:00 - Smith Repair</div>
+                        <div class="text-[10px] bg-secondary/20 text-secondary p-1 rounded truncate">14:30 - Industrial Audit</div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}HydroLogic AI | Customer Dashboard{% endblock %}
+{% set active = 'dashboard' %}
+
+{% block extra_styles %}
+.glow-hover:hover { box-shadow: 0 0 25px rgba(0,212,255,0.15); background: rgba(255,255,255,0.08); }
+{% endblock %}
+
+{% block body_class %}overflow-x-hidden{% endblock %}
+
+{% block content %}
+<main class="pt-24 pb-16 px-6 md:px-margin-desktop max-w-container-max mx-auto">
+    <section class="mb-12">
+        <h1 class="font-headline-lg text-headline-lg text-primary">Welcome, Alex Rivera</h1>
+        <p class="font-body-lg text-on-surface-variant">Monitoring 3 active properties with AI-driven precision.</p>
+    </section>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+        <!-- Next Maintenance Card -->
+        <div class="md:col-span-8 glass-panel p-8 rounded-xl relative overflow-hidden group">
+            <div class="relative z-10">
+                <div class="flex items-center space-x-2 mb-4">
+                    <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                    <span class="font-label-code text-primary uppercase">AI Diagnostic Reminder</span>
+                </div>
+                <h2 class="font-headline-md text-headline-md mb-2">Upcoming HVAC Flush &amp; Drain</h2>
+                <p class="text-on-surface-variant mb-6 max-w-md">Our AI detected a slight pressure variance in your secondary line at the Oakwood residence. Recommended maintenance within 4 days.</p>
+                <a href="/booking" class="inline-block bg-primary-container text-on-primary-container px-6 py-3 rounded-lg font-bold hover:shadow-lg transition-all">Schedule Priority Service</a>
+            </div>
+        </div>
+
+        <!-- Property Health -->
+        <div class="md:col-span-4 glass-panel p-8 rounded-xl">
+            <h3 class="font-headline-md text-body-lg mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">analytics</span> Property Health
+            </h3>
+            <div class="space-y-6">
+                {% for prop, pct, color in [("Oakwood Estate","94","primary"),("Downtown Loft","78","secondary"),("Lakeside Cabin","32","error")] %}
+                <div>
+                    <div class="flex justify-between mb-2 {% if color == 'error' %}text-error{% endif %}">
+                        <span class="text-body-md">{{ prop }}</span>
+                        <span class="font-bold">{{ pct }}%</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+                        <div class="h-full bg-{{ color }} w-[{{ pct }}%]"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <a href="/assistant" class="block w-full mt-8 py-2 border border-primary/30 rounded text-primary text-center hover:bg-primary/10 transition-colors">View Deep Diagnostics</a>
+        </div>
+
+        <!-- Activity & Invoices -->
+        <div class="md:col-span-8 glass-panel p-8 rounded-xl overflow-hidden">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-headline-md text-body-lg">Activity &amp; Invoices</h3>
+                <div class="flex gap-2">
+                    <button class="p-2 rounded hover:bg-white/5"><span class="material-symbols-outlined text-sm">filter_list</span></button>
+                    <button class="p-2 rounded hover:bg-white/5"><span class="material-symbols-outlined text-sm">search</span></button>
+                </div>
+            </div>
+            <div class="space-y-2">
+                {% for label, sub, icon, color, amount, status, status_color in [
+                    ("Main Sewer Line Diagnostic","Oakwood Estate • Oct 12, 2023","receipt_long","primary","$342.00","Paid","on-surface-variant"),
+                    ("Smart Leak Sensor Install","Downtown Loft • Sept 28, 2023","build","secondary","$185.50","Paid","on-surface-variant"),
+                    ("Emergency Valve Replacement","Lakeside Cabin • Aug 14, 2023","warning","error","$1,240.00","Overdue","error")
+                ] %}
+                <div class="flex items-center justify-between p-4 hover:bg-white/5 rounded-lg transition-all cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded bg-{{ color }}/10 flex items-center justify-center text-{{ color }}">
+                            <span class="material-symbols-outlined">{{ icon }}</span>
+                        </div>
+                        <div>
+                            <p class="font-bold">{{ label }}</p>
+                            <p class="text-sm text-on-surface-variant">{{ sub }}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-label-code text-{{ color }}">{{ amount }}</p>
+                        <span class="text-[10px] text-{{ status_color }} uppercase bg-white/5 px-2 py-0.5 rounded">{{ status }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Live Tech Tracker -->
+        <div class="md:col-span-4 glass-panel p-6 rounded-xl min-h-[300px] flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-headline-md text-body-lg">Live Tech Tracker</h3>
+                <span class="bg-primary/20 text-primary px-2 py-1 rounded text-[10px] font-bold uppercase">In Transit</span>
+            </div>
+            <div class="flex-grow rounded-lg bg-surface-container flex items-center justify-center border border-white/10">
+                <div class="text-center p-8">
+                    <span class="material-symbols-outlined text-primary text-6xl mb-4 block">my_location</span>
+                    <p class="font-label-code text-xs text-primary">TRACKING ACTIVE</p>
+                    <p class="text-on-surface-variant text-sm mt-2">Marcus V. — Arrival: 14:20 PM</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messaging Center -->
+        <div class="md:col-span-12 glass-panel grid grid-cols-1 md:grid-cols-3 rounded-xl overflow-hidden min-h-[300px]">
+            <div class="p-8 border-b md:border-b-0 md:border-r border-white/10 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-headline-md text-body-lg mb-2">Concierge Support</h3>
+                    <p class="text-on-surface-variant text-sm mb-6">Direct line to your architectural water expert. AI-assisted triage for faster response.</p>
+                </div>
+                <a href="/assistant" class="w-full py-3 bg-white/5 hover:bg-white/10 rounded-lg text-primary transition-all font-bold text-center">New Inquiry</a>
+            </div>
+            <div class="md:col-span-2 p-8 bg-surface-container-low/50">
+                <div class="h-full flex flex-col justify-end gap-4">
+                    <div class="flex justify-start">
+                        <div class="glass-panel px-4 py-2 rounded-tr-xl rounded-bl-xl rounded-br-xl max-w-[80%] text-sm">
+                            Hello Alex, your pressure report for Lakeside is ready. Would you like to review the repair quote?
+                            <p class="text-[10px] text-on-surface-variant mt-1">10:42 AM • AI Assistant</p>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="bg-primary/20 border border-primary/30 px-4 py-2 rounded-tl-xl rounded-bl-xl rounded-br-xl max-w-[80%] text-sm">
+                            Yes, please send it over. Can we schedule for Friday?
+                            <p class="text-[10px] text-primary/70 mt-1">11:15 AM • You</p>
+                        </div>
+                    </div>
+                    <div class="relative mt-4">
+                        <input class="w-full bg-surface-container-lowest border border-white/10 rounded-lg px-4 py-3 text-sm focus:border-primary focus:ring-0 outline-none" placeholder="Type a message..." type="text"/>
+                        <button class="absolute right-3 top-2 text-primary">
+                            <span class="material-symbols-outlined">send</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

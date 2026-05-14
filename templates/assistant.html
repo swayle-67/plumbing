@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}HydroLogic AI | AI Assistant{% endblock %}
+{% set active = 'assistant' %}
+
+{% block extra_styles %}
+@keyframes pulse-ring {
+    0% { transform: scale(0.95); opacity: 0.5; }
+    50% { transform: scale(1.05); opacity: 0.8; }
+    100% { transform: scale(0.95); opacity: 0.5; }
+}
+.animate-orb { animation: pulse-ring 4s cubic-bezier(0.4,0,0.6,1) infinite; }
+.orb-glow { box-shadow: 0 0 50px rgba(0,212,255,0.4); }
+.neon-wireframe { border: 1px solid rgba(168,232,255,0.3); background: linear-gradient(to bottom, rgba(168,232,255,0.05), transparent); }
+{% endblock %}
+
+{% block body_class %}overflow-hidden h-screen flex flex-col{% endblock %}
+
+{% block content %}
+<main class="flex-1 mt-20 px-6 md:px-margin-desktop pb-8 flex gap-gutter max-w-container-max mx-auto w-full overflow-hidden">
+    <!-- Chat Interface -->
+    <section class="flex-grow flex flex-col glass-panel rounded-xl overflow-hidden relative">
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-1/4 -right-1/4 w-96 h-96 bg-primary/10 blur-[100px] rounded-full"></div>
+            <div class="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-secondary/10 blur-[100px] rounded-full"></div>
+        </div>
+        <!-- Chat Header -->
+        <div class="p-8 flex items-center justify-center border-b border-white/10 z-10">
+            <div class="flex flex-col items-center">
+                <div class="relative w-20 h-20 mb-4">
+                    <div class="absolute inset-0 liquid-gradient rounded-full animate-orb orb-glow"></div>
+                    <div class="absolute inset-2 bg-surface rounded-full flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary text-4xl">water_drop</span>
+                    </div>
+                </div>
+                <h2 class="font-headline-md text-headline-md text-primary">System Diagnostic Active</h2>
+                <p class="font-label-code text-on-surface-variant uppercase tracking-widest text-[10px]">Real-time Telemetry Processing</p>
+            </div>
+        </div>
+        <!-- Conversation Area -->
+        <div class="flex-1 overflow-y-auto p-8 space-y-6 z-10">
+            <div class="flex flex-col gap-2 max-w-[80%]">
+                <div class="flex items-center gap-2">
+                    <span class="font-label-code text-primary text-xs">HYDRO_AI v4.0</span>
+                    <div class="h-[1px] w-8 bg-primary/30"></div>
+                </div>
+                <div class="glass-panel p-6 rounded-xl rounded-tl-none border-l-2 border-primary">
+                    <p class="font-body-lg text-body-lg">Welcome to the Architect of Water portal. I am monitoring your residential hydraulic system. What anomalies are you currently experiencing?</p>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2 max-w-[80%] self-end items-end">
+                <div class="flex items-center gap-2">
+                    <div class="h-[1px] w-8 bg-white/30"></div>
+                    <span class="font-label-code text-on-surface-variant text-xs">USER_PROTOCOL</span>
+                </div>
+                <div class="bg-surface-container-highest p-6 rounded-xl rounded-tr-none border border-white/10">
+                    <p class="font-body-lg text-body-lg">I'm noticing a drop in pressure in the master bathroom and a low humming sound behind the wall.</p>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2 max-w-[80%]">
+                <div class="flex items-center gap-2">
+                    <span class="font-label-code text-primary text-xs">HYDRO_AI v4.0</span>
+                    <div class="h-[1px] w-8 bg-primary/30"></div>
+                </div>
+                <div class="glass-panel p-6 rounded-xl rounded-tl-none border-l-2 border-primary">
+                    <p class="font-body-lg text-body-lg mb-4">Diagnostic Step 2/5: Have you noticed any discoloration or sediment in the water flow?</p>
+                    <div class="flex flex-wrap gap-3">
+                        <button class="bg-white/5 border border-white/20 hover:border-primary px-4 py-2 rounded-lg font-label-code text-xs transition-all">YES_SEDIMENT</button>
+                        <button class="bg-white/5 border border-white/20 hover:border-primary px-4 py-2 rounded-lg font-label-code text-xs transition-all">NO_CLEAR_FLOW</button>
+                        <button class="bg-white/5 border border-white/20 hover:border-primary px-4 py-2 rounded-lg font-label-code text-xs transition-all">INTERMITTENT_SEDIMENT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Input Bar -->
+        <div class="p-6 border-t border-white/10 bg-surface-container-lowest/50 z-10">
+            <div class="flex items-center gap-4 bg-surface-dim border border-white/10 p-2 rounded-xl focus-within:border-primary focus-within:shadow-[0_0_15px_rgba(0,212,255,0.1)] transition-all">
+                <button class="p-3 text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">attach_file</span>
+                </button>
+                <input class="flex-1 bg-transparent border-none focus:ring-0 font-body-md text-on-surface placeholder:text-on-surface-variant/50" placeholder="Describe the symptom or upload diagnostic data..." type="text"/>
+                <button class="p-3 bg-primary text-on-primary-fixed rounded-lg flex items-center justify-center hover:brightness-110 transition-all">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sidebar -->
+    <aside class="w-[380px] flex flex-col gap-gutter overflow-y-auto">
+        <!-- Smart Quote Card -->
+        <div class="glass-panel rounded-xl p-8 flex flex-col gap-6 relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-24 h-24 bg-primary/20 blur-[40px] rounded-full"></div>
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-primary/10 border border-primary/30 rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">receipt_long</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-body-lg text-primary">AI Dynamic Quote</h3>
+                    <p class="font-label-code text-[10px] text-on-surface-variant">ESTIMATE_ID: HX-8829</p>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center py-2 border-b border-white/5">
+                    <span class="text-on-surface-variant font-body-md">Diagnostic Fee</span>
+                    <span class="font-label-code text-on-surface">$49.00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-white/5">
+                    <span class="text-on-surface-variant font-body-md">Wall Cavity Inspection</span>
+                    <span class="font-label-code text-on-surface">$120.00</span>
+                </div>
+                <div class="flex justify-between items-center pt-4">
+                    <span class="font-headline-md text-body-md text-primary">Total Estimated</span>
+                    <span class="font-headline-md text-headline-md text-primary">$169.00</span>
+                </div>
+            </div>
+            <a href="/booking" class="w-full py-4 rounded-xl liquid-gradient text-on-primary-fixed font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-lg">bolt</span>
+                AUTHORIZE REPAIR
+            </a>
+        </div>
+        <!-- Neural Image Analysis -->
+        <div class="glass-panel rounded-xl p-6 neon-wireframe">
+            <h4 class="font-label-code text-xs text-on-surface-variant uppercase tracking-widest mb-4">Neural Image Analysis</h4>
+            <div class="border-2 border-dashed border-primary/20 rounded-xl p-8 flex flex-col items-center justify-center gap-4 hover:border-primary/50 transition-colors group cursor-pointer">
+                <div class="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <span class="material-symbols-outlined text-primary text-3xl">add_a_photo</span>
+                </div>
+                <p class="text-center font-body-md text-sm text-on-surface-variant">Drop leak photos or videos here for AI pressure mapping</p>
+            </div>
+        </div>
+        <!-- WhatsApp Integration -->
+        <div class="glass-panel rounded-xl p-6 bg-green-500/5 border-green-500/20">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.653a11.883 11.883 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                </div>
+                <span class="font-bold">Connect to Technician</span>
+            </div>
+            <p class="text-xs text-on-surface-variant font-body-md mb-4">Transfer this diagnostic log to a human expert for final verification.</p>
+            <div class="bg-surface-container rounded-lg p-3 flex justify-between items-center border border-white/5">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span class="text-[10px] font-label-code text-on-surface-variant">ENC_CONNECTED</span>
+                </div>
+                <button class="text-green-400 text-xs font-bold hover:underline">SYNC NOW</button>
+            </div>
+        </div>
+    </aside>
+</main>
+{% endblock %}
+
+{% block footer %}{% endblock %}
